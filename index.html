@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Währungspiel Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="gameLogic.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="game-title">Währungspiel Quiz</h1>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-label">Coins</div>
+                    <div class="stat-value" id="coins-display">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value" id="level-display">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">XP</div>
+                    <div class="stat-value" id="xp-display">0</div>
+                </div>
+            </div>
+            <div class="level-progress">
+                <div class="level-bar">
+                    <div class="level-bar-fill" id="level-progress-bar"></div>
+                </div>
+                <div class="level-text">
+                    <span>Level <span id="current-level">0</span></span>
+                    <span>Next: Level <span id="next-level">1</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-content">
+            <div class="question-container">
+                <div class="question-text" id="question-text">
+                    Loading data...
+                </div>
+                <div class="answers-container" id="answers-container">
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Preparing your money</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timer-container">
+                <div class="timer-label">Time Played</div>
+                <div class="timer-value" id="timer-display">00:00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const logic = new GameLogic()
+
+        // Initialize display elements
+        const coinsDisplay = document.getElementById('coins-display');
+        const levelDisplay = document.getElementById('level-display');
+        const xpDisplay = document.getElementById('xp-display');
+        const questionText = document.getElementById('question-text');
+        const answersContainer = document.getElementById('answers-container');
+        const timerDisplay = document.getElementById('timer-display');
+        const levelProgressBar = document.getElementById('level-progress-bar');
+        const currentLevelSpan = document.getElementById('current-level');
+        const nextLevelSpan = document.getElementById('next-level');
+
+        let startTime;
+        let timerInterval;
+
+        // Timer function
+        function updateTimer() {
+            const millis = Math.floor((Date.now() - startTime));
+            timerDisplay.textContent = `${millis.toString().padStart(4, '0')}ms`;
+        }
+
+        function resetTimer() {
+            startTime = Date.now();
+        }
+
+        // Start timer
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 50);
+
+        // Function to update UI based on game state
+        function updateUI() {
+            if (window.gameAPI && window.gameAPI.getState) {
+                const state = window.gameAPI.getState();
+                
+                // Update stats
+                coinsDisplay.textContent = state.coins || 0;
+                levelDisplay.textContent = state.level || 0;
+                xpDisplay.textContent = state.experience || 0;
+                currentLevelSpan.textContent = state.level || 0;
+                nextLevelSpan.textContent = (state.level || 0) + 1;
+                
+                // Update progress bar (assuming 100 XP per level)
+                const progressPercent = ((state.experience || 0) % 100);
+                levelProgressBar.style.width = progressPercent + '%';
+            }
+        }
+
+        // Function to load question
+        function loadQuestion(questionData, callback) {
+            questionText.textContent = questionData.question;
+            
+            answersContainer.innerHTML = '';
+            questionData.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-button';
+                button.textContent = answer;
+                button.onclick = () => handleAnswerClick(index, answer, callback);
+                answersContainer.appendChild(button);
+            });
+        }
+
+        // Handle answer selection
+        function handleAnswerClick(index, answer, callback) {
+            callback({answer: index, selected: answer})
+            logic.askQuest()
+
+            // Disable buttons temporarily
+            const buttons = answersContainer.querySelectorAll('.answer-button');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Re-enable after animation
+            setTimeout(() => {
+                buttons.forEach(btn => btn.disabled = false);
+            }, 500)
+
+            resetTimer()
+        }
+
+        // Expose functions for external JS to use
+        GameLogic.prototype.window = {}
+        GameLogic.prototype.window.gameUI = {
+            updateUI: updateUI,
+            loadQuestion: loadQuestion,
+            coinsDisplay: coinsDisplay,
+            levelDisplay: levelDisplay,
+            xpDisplay: xpDisplay,
+            levelProgressBar: levelProgressBar,
+            currentLevelSpan: currentLevelSpan,
+            nextLevelSpan: nextLevelSpan
+        }
+
+        // Initial UI update
+        updateUI()
+        logic.init().then(() => {
+            logic.askQuest()
+        })
+        .catch(error => {
+            console.error('ERROR: ', error)
+        })
+    </script>
+</body>
+</html>
