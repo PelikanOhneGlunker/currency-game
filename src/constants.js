@@ -31,3 +31,5 @@ const CURRENCY_NAMES_SHORT_AND_LONG = {
     "ZAR": "Südafrikanischer Rand (R)",
     "EUR": "Euro (€)"
 }
+
+const CURRENCY_NAMES_SHORT_AND_LONG_LENGTH = 31

@@ -795,6 +795,11 @@ const createUIController = () => {
             if (container) {
                 container.innerHTML = '';
             }
+            var ss = ".loading-spinner"
+            const containerdef = document.getElementById('answers-container');
+            if (containerdef) {
+                containerdef.innerHTML = ss;
+            }
         },
 
         // Generic setter/getter for any element by ID
