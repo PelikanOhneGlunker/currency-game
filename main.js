@@ -1,3 +1,23 @@
+// Instead of this (causes errors):
+function myFunction() {
+    window.uiController.setCoins(100); // Error if uiController is null
+}
+
+// Do this (safe):
+function myFunction() {
+    window.useModule('uiController', (uiController) => {
+        uiController.setCoins(100); // Only runs when uiController exists
+    });
+}
+
+// Or for multiple dependencies:
+function myComplexFunction() {
+    window.useModules(['uiController', 'answerManager'], (modules) => {
+        modules.uiController.setCoins(100);
+        modules.answerManager.clearAnswers();
+    });
+}
+
 async function stripData() {
     await deleteCurrencysWithMissingData(database).then(() => {
         alert()

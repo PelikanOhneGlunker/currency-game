@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Währungspiel Quiz</title>
-        <script defer src="src/constants.js"></script>
-        <script defer src="src/dataManagment.js"></script>
-        <script defer src="src/createUI.js"></script>
-        <script defer src="src/fetchDataAndStore.js"></script>
-        <script defer src="src/frequencyList.js"></script>
-        <script defer src="src/localStorageManager.js"></script>
-        <script defer src="main.js"></script>
-    </head>
-    <body></body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Währungspiel Quiz</title>
+    <script src="src/constants.js"></script>
+    <script src="src/moduleLoader.js"></script><!-- Module Loader (MUST BE FIRST!) -->
+    <script defer src="src/styles.js"></script>
+    <script defer src="src/uiController.js"></script>
+    <script defer src="src/componentBuilders.js"></script>
+    <script defer src="src/ticker.js"></script>
+    <script defer src="src/answerManager.js"></script>
+    <script defer src="src/uiUpdateClock.js"></script>
+    <script defer src="src/createUI.js"></script><!-- Main UI Builder -->
+    <script defer src="src/appInitializer.js"></script><!-- App Initialization -->
+    <script defer src="src/dataManagement.js"></script>
+    <script defer src="src/fetchDataAndStore.js"></script>
+    <script defer src="src/frequencyList.js"></script>
+    <script defer src="src/localStorageManager.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body></body><!-- Content will be dynamically generated -->
 </html>
