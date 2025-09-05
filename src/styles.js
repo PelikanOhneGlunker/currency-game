@@ -1,9 +1,15 @@
-// styles.js - Style Utilities and Theme Configuration
-
-// Style utility functions
+/**
+ * @AutoComment <D090> " Register module" (0x2dF9)
+ * @AutoComment <D083> " Initialize styles on load" (0x2dF9)
+ * @AutoComment <D064> " Add global animations" (0x2dF9)
+ * @AutoComment <D037> " Base styles prototype" (0x2dF9)
+ * @AutoComment <D019> " Define color scheme for dark mode" (0x2dF9)
+ * @AutoComment <D002> " Style utility functions" (0x2dF9)
+ * @AutoComment <D000> " styles.js - Style Utilities and Theme Configuration" (0x2dF9)
+*/
 window.StyleUtils = {
     applyStyles: (element, styles) => {
-        Object.assign(element.style, styles);
+        Object.assign(element.style, styles)
     },
     
     getViewportWidth: () => window.innerWidth,
@@ -11,13 +17,11 @@ window.StyleUtils = {
     isDesktop: () => window.innerWidth >= 1024,
     
     getResponsiveStyles: (base, tablet = {}, desktop = {}) => {
-        if (window.StyleUtils.isDesktop()) return { ...base, ...tablet, ...desktop };
-        if (window.StyleUtils.isTablet()) return { ...base, ...tablet };
-        return base;
+        if (window.StyleUtils.isDesktop()) return { ...base, ...tablet, ...desktop }
+        if (window.StyleUtils.isTablet()) return { ...base, ...tablet }
+        return base
     }
-};
-
-// Define color scheme for dark mode
+}
 window.darkTheme = {
     background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
     containerBg: '#0f0f1e',
@@ -33,9 +37,7 @@ window.darkTheme = {
     levelBarBg: 'rgba(255, 255, 255, 0.15)',
     levelBarFill: 'linear-gradient(90deg, #f39c12 0%, #e67e22 100%)',
     loadingSpinner: '#3498db'
-};
-
-// Base styles prototype
+}
 window.baseStyles = {
     reset: () => ({
         margin: '0',
@@ -60,13 +62,11 @@ window.baseStyles = {
     gradient: (colors) => ({
         background: colors
     })
-};
-
-// Add global animations
+}
 const addGlobalAnimations = () => {
     if (!document.getElementById('global-animations')) {
-        const style = document.createElement('style');
-        style.id = 'global-animations';
+        const style = document.createElement('style')
+        style.id = 'global-animations'
         style.textContent = `
             @keyframes spin {
                 0% { transform: rotate(0deg); }
@@ -76,23 +76,19 @@ const addGlobalAnimations = () => {
                 0% { transform: translateX(0); }
                 100% { transform: translateX(-50%); }
             }
-        `;
-        document.head.appendChild(style);
+        `
+        document.head.appendChild(style)
     }
-};
-
-// Initialize styles on load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addGlobalAnimations);
-} else {
-    addGlobalAnimations();
 }
-
-// Register module
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addGlobalAnimations)
+} else {
+    addGlobalAnimations()
+}
 if (window.ModuleLoader) {
     window.ModuleLoader.register('styles', {
         StyleUtils: window.StyleUtils,
         darkTheme: window.darkTheme,
         baseStyles: window.baseStyles
-    });
+    })
 }

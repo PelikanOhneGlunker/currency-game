@@ -1,71 +1,76 @@
-// uiUpdateClock.js - UI Update Clock for Async Operations
-
+/**
+ * @AutoComment <D209> " Self-register module (optional, not required for initialization)" (0x2dF9)
+ * @AutoComment <D204> " Stop clock on page unload" (0x2dF9)
+ * @AutoComment <D195> " Auto-start clock when DOM is ready" (0x2dF9)
+ * @AutoComment <D192> " Setup integration" (0x2dF9)
+ * @AutoComment <D187> " Try again later if uiController doesn't exist yet" (0x2dF9)
+ * @AutoComment <D178> " Subscribe to clock for debugging" (0x2dF9)
+ * @AutoComment <D172> " Override queueUpdate to use the clock" (0x2dF9)
+ * @AutoComment <D169> " Integration with UIController" (0x2dF9)
+ * @AutoComment <D166> " Create global clock instance" (0x2dF9)
+ * @AutoComment <D160> " Set tick interval (in milliseconds)" (0x2dF9)
+ * @AutoComment <D155> " Clear the update queue" (0x2dF9)
+ * @AutoComment <D150> " Get current stats" (0x2dF9)
+ * @AutoComment <D145> " Calculate rolling average" (0x2dF9)
+ * @AutoComment <D139> " Update statistics" (0x2dF9)
+ * @AutoComment <D128> " Notify all subscribers" (0x2dF9)
+ * @AutoComment <D122> " Subscribe to clock ticks" (0x2dF9)
+ * @AutoComment <D111> " Insert based on priority (higher priority first)" (0x2dF9)
+ * @AutoComment <D102> " Queue an update" (0x2dF9)
+ * @AutoComment <D082> " Process queued updates" (0x2dF9)
+ * @AutoComment <D065> " Schedule next tick" (0x2dF9)
+ * @AutoComment <D058> " Update stats" (0x2dF9)
+ * @AutoComment <D055> " Notify subscribers" (0x2dF9)
+ * @AutoComment <D052> " Process update queue" (0x2dF9)
+ * @AutoComment <D048> " Check if we should process updates" (0x2dF9)
+ * @AutoComment <D041> " Main tick function" (0x2dF9)
+ * @AutoComment <D028> " Stop the clock" (0x2dF9)
+ * @AutoComment <D017> " Start the clock" (0x2dF9)
+ * @AutoComment <D000> " uiUpdateClock.js - UI Update Clock for Async Operations" (0x2dF9)
+*/
 window.UIUpdateClock = class UIUpdateClock {
     constructor(tickInterval = 16) { // ~60 FPS by default
-        this.tickInterval = tickInterval;
-        this.isRunning = false;
-        this.updateQueue = [];
-        this.subscribers = new Set();
-        this.lastTick = 0;
-        this.animationFrameId = null;
+        this.tickInterval = tickInterval
+        this.isRunning = false
+        this.updateQueue = []
+        this.subscribers = new Set()
+        this.lastTick = 0
+        this.animationFrameId = null
         this.stats = {
             totalUpdates: 0,
             droppedFrames: 0,
             averageUpdateTime: 0
-        };
+        }
     }
-
-    // Start the clock
     start() {
-        if (this.isRunning) return;
-        
-        this.isRunning = true;
-        this.lastTick = performance.now();
-        this.tick();
-        
-        console.log('UI Update Clock started');
+        if (this.isRunning) return
+        this.isRunning = true
+        this.lastTick = performance.now()
+        this.tick()
+        console.log('UI Update Clock started')
     }
-
-    // Stop the clock
     stop() {
-        if (!this.isRunning) return;
-        
-        this.isRunning = false;
+        if (!this.isRunning) return
+        this.isRunning = false
         if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
+            cancelAnimationFrame(this.animationFrameId)
+            this.animationFrameId = null
         }
-        
-        console.log('UI Update Clock stopped');
+        console.log('UI Update Clock stopped')
     }
-
-    // Main tick function
     tick() {
-        if (!this.isRunning) return;
-        
-        const now = performance.now();
-        const deltaTime = now - this.lastTick;
-        
-        // Check if we should process updates
+        if (!this.isRunning) return
+        const now = performance.now()
+        const deltaTime = now - this.lastTick
         if (deltaTime >= this.tickInterval) {
-            const startProcessing = performance.now();
-            
-            // Process update queue
-            this.processQueue();
-            
-            // Notify subscribers
-            this.notifySubscribers(deltaTime);
-            
-            // Update stats
-            const processingTime = performance.now() - startProcessing;
-            this.updateStats(processingTime, deltaTime);
-            
-            this.lastTick = now;
+            const startProcessing = performance.now()
+            this.processQueue()
+            this.notifySubscribers(deltaTime)
+            const processingTime = performance.now() - startProcessing
+            this.updateStats(processingTime, deltaTime)
+            this.lastTick = now
         }
-        
-        // Schedule next tick
-        this.animationFrameId = requestAnimationFrame(() => this.tick());
-
+        this.animationFrameId = requestAnimationFrame(() => this.tick())
         var deleteDoubleMainFrame = () => {
             var mfs = document.getElementsByClassName("game-container").length
             if (mfs > 1) {
@@ -76,138 +81,104 @@ window.UIUpdateClock = class UIUpdateClock {
                 }
             }
         }
-
-        deleteDoubleMainFrame();
+        deleteDoubleMainFrame()
     }
-
-    // Process queued updates
     processQueue() {
-        const batchSize = Math.min(this.updateQueue.length, 10); // Process max 10 updates per tick
-        
+
+        /**
+         * @param Math.min <T> (INT): 10 - Process max 10 updates per tick
+         */
+        const batchSize = Math.min(this.updateQueue.length, 10)
         for (let i = 0; i < batchSize; i++) {
-            const update = this.updateQueue.shift();
+            const update = this.updateQueue.shift()
             if (update) {
                 try {
-                    update.execute();
-                    this.stats.totalUpdates++;
+                    update.execute()
+                    this.stats.totalUpdates++
                 } catch (error) {
-                    console.error('Error executing update:', error);
+                    console.error('Error executing update:', error)
                     if (update.onError) {
-                        update.onError(error);
+                        update.onError(error)
                     }
                 }
             }
         }
     }
-
-    // Queue an update
     queueUpdate(updateFn, priority = 0, onError = null) {
         const update = {
             execute: updateFn,
             priority,
             onError,
             timestamp: performance.now()
-        };
-        
-        // Insert based on priority (higher priority first)
-        let insertIndex = this.updateQueue.findIndex(u => u.priority < priority);
-        if (insertIndex === -1) {
-            this.updateQueue.push(update);
-        } else {
-            this.updateQueue.splice(insertIndex, 0, update);
         }
-        
-        return update;
+        let insertIndex = this.updateQueue.findIndex(u => u.priority < priority)
+        if (insertIndex === -1) {
+            this.updateQueue.push(update)
+        } else {
+            this.updateQueue.splice(insertIndex, 0, update)
+        }
+        return update
     }
-
-    // Subscribe to clock ticks
     subscribe(callback) {
-        this.subscribers.add(callback);
-        return () => this.subscribers.delete(callback);
+        this.subscribers.add(callback)
+        return () => this.subscribers.delete(callback)
     }
-
-    // Notify all subscribers
     notifySubscribers(deltaTime) {
         this.subscribers.forEach(callback => {
             try {
-                callback(deltaTime, this.stats);
+                callback(deltaTime, this.stats)
             } catch (error) {
-                console.error('Error in subscriber callback:', error);
+                console.error('Error in subscriber callback:', error)
             }
-        });
+        })
     }
-
-    // Update statistics
     updateStats(processingTime, deltaTime) {
         if (deltaTime > this.tickInterval * 2) {
-            this.stats.droppedFrames++;
+            this.stats.droppedFrames++
         }
-        
-        // Calculate rolling average
         this.stats.averageUpdateTime = 
-            (this.stats.averageUpdateTime * 0.95) + (processingTime * 0.05);
+            (this.stats.averageUpdateTime * 0.95) + (processingTime * 0.05)
     }
-
-    // Get current stats
     getStats() {
-        return { ...this.stats };
+        return { ...this.stats }
     }
-
-    // Clear the update queue
     clearQueue() {
-        this.updateQueue = [];
+        this.updateQueue = []
     }
-
-    // Set tick interval (in milliseconds)
     setTickInterval(interval) {
         this.tickInterval = Math.max(8, interval); // Minimum 8ms (~120 FPS max)
     }
-};
-
-// Create global clock instance
-window.uiClock = new UIUpdateClock();
-
-// Integration with UIController
+}
+window.uiClock = new UIUpdateClock()
 const setupUIControllerIntegration = () => {
     if (window.uiController) {
-        // Override queueUpdate to use the clock
-        const originalQueueUpdate = window.uiController.queueUpdate;
+        const originalQueueUpdate = window.uiController.queueUpdate
         window.uiController.queueUpdate = function(fn) {
-            window.uiClock.queueUpdate(fn, 1);
-        };
-        
-        // Subscribe to clock for debugging
+            window.uiClock.queueUpdate(fn, 1)
+        }
         window.uiClock.subscribe((deltaTime, stats) => {
             if (stats.totalUpdates % 100 === 0) { // Log every 100 updates
-                console.log('UI Clock Stats:', stats);
+                if (SHOW_CLOCK_TICKS) {
+                    console.log('UI Clock Stats:', stats)
+                }
             }
-        });
-        
-        console.log('UIUpdateClock integrated with UIController');
+        })
+        console.log('UIUpdateClock integrated with UIController')
     } else {
-        // Try again later if uiController doesn't exist yet
-        setTimeout(setupUIControllerIntegration, 100);
+        setTimeout(setupUIControllerIntegration, 100)
     }
-};
-
-// Setup integration
-setupUIControllerIntegration();
-
-// Auto-start clock when DOM is ready
+}
+setupUIControllerIntegration()
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        window.uiClock.start();
-    });
+        window.uiClock.start()
+    })
 } else {
-    window.uiClock.start();
+    window.uiClock.start()
 }
-
-// Stop clock on page unload
 window.addEventListener('beforeunload', () => {
-    window.uiClock.stop();
-});
-
-// Self-register module (optional, not required for initialization)
+    window.uiClock.stop()
+})
 if (window.appInitializer) {
-    window.appInitializer.moduleLoaded('uiClock');
+    window.appInitializer.moduleLoaded('uiClock')
 }

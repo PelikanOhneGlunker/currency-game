@@ -1,9 +1,26 @@
-// createUI.js - Main UI Builder
-
+/**
+ * @AutoComment <D137> " Register module" (0x2dF9)
+ * @AutoComment <D129> " Emit ready event SAFELY" (0x2dF9)
+ * @AutoComment <D119> " Emit resize event SAFELY" (0x2dF9)
+ * @AutoComment <D116> " Re-apply responsive styles" (0x2dF9)
+ * @AutoComment <D111> " Handle window resize" (0x2dF9)
+ * @AutoComment <D103> " Initialize answer manager after DOM is ready" (0x2dF9)
+ * @AutoComment <D100> " Finally, append to document body" (0x2dF9)
+ * @AutoComment <D096> " Append to game container" (0x2dF9)
+ * @AutoComment <D091> " Append elements to game content" (0x2dF9)
+ * @AutoComment <D088> " Create timer using component builder" (0x2dF9)
+ * @AutoComment <D072> " Create answers container" (0x2dF9)
+ * @AutoComment <D052> " Create question container" (0x2dF9)
+ * @AutoComment <D048> " Create ticker" (0x2dF9)
+ * @AutoComment <D041> " Create game content section" (0x2dF9)
+ * @AutoComment <D038> " Create header using component builder" (0x2dF9)
+ * @AutoComment <D030> " Add hover effect" (0x2dF9)
+ * @AutoComment <D005> " Apply global styles to body" (0x2dF9)
+ * @AutoComment <D000> " createUI.js - Main UI Builder" (0x2dF9)
+*/
 window.buildDom = () => {
-    const { applyStyles, getResponsiveStyles, isTablet } = window.StyleUtils;
+    const { applyStyles, getResponsiveStyles, isTablet } = window.StyleUtils
     
-    // Apply global styles to body
     applyStyles(document.body, {
         ...window.baseStyles.reset(),
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
@@ -12,10 +29,9 @@ window.buildDom = () => {
         ...window.baseStyles.flexCenter(),
         padding: getResponsiveStyles('1rem', '1rem', '2rem'),
         color: window.darkTheme.text
-    });
-
-    const gameContainer = document.createElement('div');
-    gameContainer.className = 'game-container';
+    })
+    const gameContainer = document.createElement('div')
+    gameContainer.className = 'game-container'
     applyStyles(gameContainer, {
         background: window.darkTheme.containerBg,
         ...window.baseStyles.borderRadius('20px'),
@@ -26,41 +42,30 @@ window.buildDom = () => {
         ...window.baseStyles.transition('transform'),
         border: `1px solid ${window.darkTheme.border}`,
         margin: '50px'
-    });
-
-    // Add hover effect
+    })
     gameContainer.addEventListener('mouseenter', () => {
-        gameContainer.style.transform = 'translateY(-5px)';
-    });
+        gameContainer.style.transform = 'translateY(-5px)'
+    })
     gameContainer.addEventListener('mouseleave', () => {
-        gameContainer.style.transform = 'translateY(0)';
-    });
-
-    // Create header using component builder
-    const header = window.ComponentBuilders.createHeader();
-
-    // Create game content section
-    const gameContent = document.createElement('div');
-    gameContent.className = 'game-content';
+        gameContainer.style.transform = 'translateY(0)'
+    })
+    const header = window.ComponentBuilders.createHeader()
+    const gameContent = document.createElement('div')
+    gameContent.className = 'game-content'
     applyStyles(gameContent, {
         padding: getResponsiveStyles('2rem', '2.5rem', '3rem')
-    });
-
-    // Create ticker
-    const ticker = window.createExchangeTicker();
+    })
+    const ticker = window.createExchangeTicker()
     window.currentTicker = ticker; // Store globally for access
-
-    // Create question container
-    const questionContainer = document.createElement('div');
-    questionContainer.className = 'question-container';
+    const questionContainer = document.createElement('div')
+    questionContainer.className = 'question-container'
     applyStyles(questionContainer, {
         marginBottom: '2rem'
-    });
-
-    const questionText = document.createElement('div');
-    questionText.className = 'question-text';
-    questionText.id = 'question-text';
-    questionText.textContent = 'Loading data...';
+    })
+    const questionText = document.createElement('div')
+    questionText.className = 'question-text'
+    questionText.id = 'question-text'
+    questionText.textContent = 'Loading data...'
     applyStyles(questionText, {
         fontSize: getResponsiveStyles('1.1rem', '1.25rem', '1.3rem'),
         fontWeight: '600',
@@ -68,12 +73,10 @@ window.buildDom = () => {
         marginBottom: getResponsiveStyles('1.5rem', '1.5rem', '2rem'),
         textAlign: 'center',
         color: window.darkTheme.questionText
-    });
-
-    // Create answers container
-    const answersContainer = document.createElement('div');
-    answersContainer.className = 'answers-container';
-    answersContainer.id = 'answers-container';
+    })
+    const answersContainer = document.createElement('div')
+    answersContainer.className = 'answers-container'
+    answersContainer.id = 'answers-container'
     applyStyles(answersContainer, {
         display: 'flex',
         flexDirection: isTablet() ? 'row' : 'column',
@@ -81,61 +84,43 @@ window.buildDom = () => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '150px'
-    });
-
-    questionContainer.appendChild(questionText);
-    questionContainer.appendChild(answersContainer);
-
-    // Create timer using component builder
-    const timerContainer = window.ComponentBuilders.createTimerContainer();
-
-    // Append elements to game content
-    gameContent.appendChild(ticker.container);
-    gameContent.appendChild(questionContainer);
-    gameContent.appendChild(timerContainer);
-
-    // Append to game container
-    gameContainer.appendChild(header);
-    gameContainer.appendChild(gameContent);
-
-    // Finally, append to document body
-    document.body.appendChild(gameContainer);
+    })
+    questionContainer.appendChild(questionText)
+    questionContainer.appendChild(answersContainer)
+    const timerContainer = window.ComponentBuilders.createTimerContainer()
+    gameContent.appendChild(ticker.container)
+    gameContent.appendChild(questionContainer)
+    gameContent.appendChild(timerContainer)
+    gameContainer.appendChild(header)
+    gameContainer.appendChild(gameContent)
+    document.body.appendChild(gameContainer)
     
-    // Initialize answer manager after DOM is ready
     setTimeout(() => {
         if (window.answerManager) {
-            window.answerManager.init();
-            window.answerManager.showLoading();
+            window.answerManager.init()
+            window.answerManager.showLoading()
         }
-    }, 0);
-
-    // Handle window resize
-    let resizeTimeout;
+    }, 0)
+    let resizeTimeout
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
+        clearTimeout(resizeTimeout)
         resizeTimeout = setTimeout(() => {
-            // Re-apply responsive styles
-            document.body.innerHTML = '';
-            window.buildDom();
-            // Emit resize event SAFELY
+            document.body.innerHTML = ''
+            window.buildDom()
             window.useModule('uiController', (uiController) => {
                 uiController.emitUpdate('resize', {
                     width: window.innerWidth,
                     height: window.innerHeight
-                });
-            });
-        }, 250);
-    });
-
-    // Emit ready event SAFELY
+                })
+            })
+        }, 250)
+    })
     window.useModule('uiController', (uiController) => {
-        uiController.emitUpdate('domReady', true);
-    });
+        uiController.emitUpdate('domReady', true)
+    })
     
-    return window.ModuleLoader.get('uiController');
-};
-
-// Register module
+    return window.ModuleLoader.get('uiController')
+}
 if (window.ModuleLoader) {
-    window.ModuleLoader.register('createUI', { buildDom: window.buildDom });
+    window.ModuleLoader.register('createUI', { buildDom: window.buildDom })
 }

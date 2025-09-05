@@ -1,5 +1,8 @@
-// ticker.js - Exchange Rate Ticker Component
-
+/**
+ * @AutoComment <D147> " Register module" (0x2dF9)
+ * @AutoComment <D128> " Add CSS for hover effects" (0x2dF9)
+ * @AutoComment <D000> " ticker.js - Exchange Rate Ticker Component" (0x2dF9)
+*/
 window.createExchangeTicker = () => {
     const currencies = [
         { pair: 'EUR/USD', rate: 1.0856, change: 0.0012, changePercent: 0.11 },
@@ -17,11 +20,10 @@ window.createExchangeTicker = () => {
         { pair: 'BTC/USD', rate: 43567.89, change: 892.45, changePercent: 2.09 },
         { pair: 'ETH/USD', rate: 2298.67, change: -45.23, changePercent: -1.93 },
         { pair: 'XAU/USD', rate: 2045.30, change: 12.85, changePercent: 0.63 }
-    ];
-
-    const tickerContainer = document.createElement('div');
-    tickerContainer.className = 'ticker-container';
-    tickerContainer.id = 'exchange-ticker';
+    ]
+    const tickerContainer = document.createElement('div')
+    tickerContainer.className = 'ticker-container'
+    tickerContainer.id = 'exchange-ticker'
     
     window.StyleUtils.applyStyles(tickerContainer, {
         background: 'linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
@@ -32,28 +34,25 @@ window.createExchangeTicker = () => {
         display: 'flex',
         alignItems: 'center',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
-    });
-
-    const scrollWrapper = document.createElement('div');
-    scrollWrapper.className = 'ticker-scroll';
+    })
+    const scrollWrapper = document.createElement('div')
+    scrollWrapper.className = 'ticker-scroll'
     window.StyleUtils.applyStyles(scrollWrapper, {
         display: 'flex',
         whiteSpace: 'nowrap',
         animation: 'scroll-ticker 60s linear infinite',
         paddingRight: '50px'
-    });
-
+    })
     const updateRate = (baseRate) => {
-        const variation = (Math.random() - 0.5) * 0.01 * baseRate;
-        return baseRate + variation;
-    };
-
+        const variation = (Math.random() - 0.5) * 0.01 * baseRate
+        return baseRate + variation
+    }
     const createTickerItem = (currency) => {
-        const item = document.createElement('span');
-        item.className = 'ticker-item';
+        const item = document.createElement('span')
+        item.className = 'ticker-item'
         
-        const changeColor = currency.change >= 0 ? '#00ff88' : '#ff4757';
-        const arrow = currency.change >= 0 ? '▲' : '▼';
+        const changeColor = currency.change >= 0 ? '#00ff88' : '#ff4757'
+        const arrow = currency.change >= 0 ? '▲' : '▼'
         
         window.StyleUtils.applyStyles(item, {
             padding: '0 20px',
@@ -63,78 +62,66 @@ window.createExchangeTicker = () => {
             alignItems: 'center',
             gap: '8px',
             borderRight: '1px solid #2d3748'
-        });
-
-        const pairSpan = document.createElement('span');
-        pairSpan.textContent = currency.pair;
+        })
+        const pairSpan = document.createElement('span')
+        pairSpan.textContent = currency.pair
         window.StyleUtils.applyStyles(pairSpan, {
             color: '#ffffff',
             fontWeight: 'bold',
             letterSpacing: '1px'
-        });
-
-        const rateSpan = document.createElement('span');
-        rateSpan.textContent = currency.rate.toFixed(currency.rate > 100 ? 2 : 4);
+        })
+        const rateSpan = document.createElement('span')
+        rateSpan.textContent = currency.rate.toFixed(currency.rate > 100 ? 2 : 4)
         window.StyleUtils.applyStyles(rateSpan, {
             color: '#61dafb',
             fontWeight: '600'
-        });
-
-        const changeSpan = document.createElement('span');
-        changeSpan.textContent = `${arrow} ${Math.abs(currency.changePercent).toFixed(2)}%`;
+        })
+        const changeSpan = document.createElement('span')
+        changeSpan.textContent = `${arrow} ${Math.abs(currency.changePercent).toFixed(2)}%`
         window.StyleUtils.applyStyles(changeSpan, {
             color: changeColor,
             fontWeight: '500',
             fontSize: '12px'
-        });
-
-        item.appendChild(pairSpan);
-        item.appendChild(rateSpan);
-        item.appendChild(changeSpan);
-
+        })
+        item.appendChild(pairSpan)
+        item.appendChild(rateSpan)
+        item.appendChild(changeSpan)
         setInterval(() => {
-            const newRate = updateRate(currency.rate);
-            const change = newRate - currency.rate;
-            const changePercent = (change / currency.rate) * 100;
+            const newRate = updateRate(currency.rate)
+            const change = newRate - currency.rate
+            const changePercent = (change / currency.rate) * 100
             
-            rateSpan.textContent = newRate.toFixed(currency.rate > 100 ? 2 : 4);
+            rateSpan.textContent = newRate.toFixed(currency.rate > 100 ? 2 : 4)
             
-            const newChangeColor = change >= 0 ? '#00ff88' : '#ff4757';
-            const newArrow = change >= 0 ? '▲' : '▼';
-            changeSpan.textContent = `${newArrow} ${Math.abs(changePercent).toFixed(2)}%`;
-            changeSpan.style.color = newChangeColor;
+            const newChangeColor = change >= 0 ? '#00ff88' : '#ff4757'
+            const newArrow = change >= 0 ? '▲' : '▼'
+            changeSpan.textContent = `${newArrow} ${Math.abs(changePercent).toFixed(2)}%`
+            changeSpan.style.color = newChangeColor
             
-            rateSpan.style.transition = 'none';
-            rateSpan.style.textShadow = `0 0 10px ${newChangeColor}`;
+            rateSpan.style.transition = 'none'
+            rateSpan.style.textShadow = `0 0 10px ${newChangeColor}`
             setTimeout(() => {
-                rateSpan.style.transition = 'text-shadow 0.5s ease';
-                rateSpan.style.textShadow = 'none';
-            }, 100);
-        }, 2000 + Math.random() * 3000);
-
-        return item;
-    };
-
+                rateSpan.style.transition = 'text-shadow 0.5s ease'
+                rateSpan.style.textShadow = 'none'
+            }, 100)
+        }, 2000 + Math.random() * 3000)
+        return item
+    }
     const createTickerSet = () => {
         currencies.forEach(currency => {
-            scrollWrapper.appendChild(createTickerItem(currency));
-        });
-    };
-
-    createTickerSet();
-    createTickerSet();
-
-    tickerContainer.appendChild(scrollWrapper);
-
-    // Add CSS for hover effects
-    const tickerStyle = document.createElement('style');
+            scrollWrapper.appendChild(createTickerItem(currency))
+        })
+    }
+    createTickerSet()
+    createTickerSet()
+    tickerContainer.appendChild(scrollWrapper)
+    const tickerStyle = document.createElement('style')
     tickerStyle.textContent = `
         .ticker-scroll:hover { animation-play-state: paused; }
         .ticker-item { transition: transform 0.3s ease; }
         .ticker-item:hover { transform: scale(1.05); }
-    `;
-    document.head.appendChild(tickerStyle);
-
+    `
+    document.head.appendChild(tickerStyle)
     return {
         container: tickerContainer,
         pause: () => scrollWrapper.style.animationPlayState = 'paused',
@@ -142,10 +129,8 @@ window.createExchangeTicker = () => {
         setSpeed: (duration) => scrollWrapper.style.animationDuration = `${duration}s`,
         hide: () => tickerContainer.style.display = 'none',
         show: () => tickerContainer.style.display = 'flex'
-    };
-};
-
-// Register module
+    }
+}
 if (window.ModuleLoader) {
-    window.ModuleLoader.register('ticker', { createExchangeTicker: window.createExchangeTicker });
+    window.ModuleLoader.register('ticker', { createExchangeTicker: window.createExchangeTicker })
 }
