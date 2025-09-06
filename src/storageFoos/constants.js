@@ -58,3 +58,4 @@ const READ_FROM_LOCAL_STORAGE = true
 const SPIN_COLOR = ["#00ff88", "#ff4757", "#61DAFB", "#CCCCCC"]
 const TAUSEND_MILLISEKUNDEN = new HexNumber(0x3E8)
 const SHOW_CLOCK_TICKS = false
+

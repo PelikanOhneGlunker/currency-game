@@ -1,3 +1,6 @@
+/**
+ * @type {Record<int, int>} (index, counterAskCurrency)
+ */
 const frequencyList = []
 
 var setupFrequencyPerCurrency = () => {
@@ -6,6 +9,9 @@ var setupFrequencyPerCurrency = () => {
     })
 }
 
+/**
+ * @todo test and inplement in project
+ */
 var getLowestCurrency = () => {
     short_list = currency_array
     var arr = []
@@ -21,3 +27,4 @@ var getLowestCurrency = () => {
         }
     }
 }
+

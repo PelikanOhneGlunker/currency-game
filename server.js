@@ -1,16 +1,32 @@
-const express = require("express")
-const app = express()
-const PORT = 3000
-const HOST = require("ip").address()
-const DOMAIN = "http://" + HOST + ":" + PORT + "/"
+/**
+ * @linkcode /server.js
+ */
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-app.listen(PORT, HOST, function(err) {
-    if (err) {
-        console.log(err)
-    } else {
-        console.log(`Started listening on ${DOMAIN}`)
-    }
-})
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.use(express.static("public"))
-app.use(express.json({ limit: "1mb" }))
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Serve static files from dist folder (after build)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// API routes (if needed)
+app.get('/api/qqqq', (req, res) => {
+    res.json({
+        vvvvv: "Z+JBKU+WHUI6ITAYAGPUYWOQAO3ICFEXQWYPDZT8G"
+    });
+});
+
+// Fallback to index.html for SPA
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://127.0.0.1:${PORT}`)
+});
+

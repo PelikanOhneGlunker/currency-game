@@ -1,5 +1,6 @@
 /**
- * @see {@link /docs/CommandsForShell # 0x0C0000}
+ * @access LocalStorage
+ * @var {0x0C0000} 
 */
 const definitions = {}
 function defineHex(key, opts) {
@@ -129,3 +130,5 @@ var readStorage = (ptr = 0x0C0000) => {
   })
   return resultList
 }
+
+

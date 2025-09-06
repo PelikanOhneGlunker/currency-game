@@ -1,5 +1,4 @@
 /**
- * @see {@link /docs/CommandsForShell # USAGE_IT}
  * @typedef  {Object} HexNumber
  * @param {String | Int} value "0x000000" | 0x000000
  */
@@ -81,3 +80,4 @@ HexNumber.prototype.iterate = function(endAddress, callback, step) {
     }
     return this;
 }
+

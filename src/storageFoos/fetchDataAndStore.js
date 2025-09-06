@@ -11,8 +11,6 @@ function YearData(year, url) {
     this.currency_array = []
 }
 
-var uiController = null
-
 /**
  * @typedef {"AUD"|"BGN"|"BRL"|"CAD"} WaehrungCode
  * @listens length 779
@@ -89,3 +87,4 @@ var fetchAllAsync = async () => {
         return false
     })
 }
+
