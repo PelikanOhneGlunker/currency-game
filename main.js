@@ -1,32 +1,49 @@
-async function stripData() {
-    await deleteCurrencysWithMissingData(database).then(() => {
-        alert()
-        saveToLocalStorage()
-    })
-    .catch((e) => alert(e))
-    setupFrequencyPerCurrency()
-    deleteDobbleEntrys()
+/**
+ * 
+ * @param {Function} callback 
+ * @param {Function} getFlag 
+ */
+var waitForFunction = async function(callback, getFlag) {
+    setTimeout(() => {
+        if (getFlag()) {
+            callback()
+        } else {
+            waitForFunction(callback, getFlag)
+        }
+    }, 100)
 }
 
 /**
- * MAIN FUNCTION
+ * @event <ENTRYPOINT>
  */
 async function main() {
-    /**
-     * Builds the DOM and returns UI controller
-     * @see {@link https://github.com/yourproject/docs/uiController.md}
-     */
-    uiController = buildDom()
-    fetchAllAsync()
-    window.setTimeout(() => {
-        var a_qus = database[22].currency_array[10]
-        var b_qus = database[22].currency_array[6]
-        uiController.setQuestion(a_qus.name + " 364837 " + a_qus.short + " || " + b_qus.name + " 74596549 " + b_qus.short)
-        stripData()
-        uiController.hideLoading()
-    }, 4000)
-    
-    uiController.addAnswerButton("US$", 0, () => {alert("$$$$ ")});
+    var sto = readStorage(0x0C0000)
+    if (READ_FROM_LOCAL_STORAGE) {
+            if (!(sto.length > 0)) {
+            fetchAllAsync()
+            hexStorageTest()
+            waitForFunction(writeToStorage, () => {return (sumCurrencyArrayInDB() > 0)})
+        }
+    }
+    var randAsk = () => {
+        var ri = parseInt(Math.random() * sto.length) - 1
+        var ob = JSON.parse(sto[ri])
+        return ob
+    }
+    var robj = [randAsk(), randAsk()]
+    attr_robj = robj
+    console.log("R OBJ 1:" + JSON.stringify(robj[0]))
+    console.log("R OBJ 2:" + JSON.stringify(robj[1]))
+    setTimeout(() => {
+        var DEF_STY = "background: linear-gradient(135deg, rgb(45, 53, 97) 0%, rgb(30, 60, 114) 100%); color: white; text-align: center; "
+        DEF_STY += "font-size: 1.5rem; width: 100%"
+        isLoadingScreen = `
+        <button id='answers-anz1' style='${DEF_STY}; color: ${SPIN_COLOR[0]};'>${robj[0].name}</button>
+        <button id='answers-anz2' style='${DEF_STY}; color: ${SPIN_COLOR[1]};'>${robj[1].name}</button>
+        `
+        document.getElementById('question-text').innerText = "" + robj[0].name + " oder " + robj[1].name
+        document.getElementById('answers-anz1')
+    }, (1500))
 }
 
 main()
