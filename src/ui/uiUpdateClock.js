@@ -46,6 +46,31 @@ window.UIUpdateClock = class UIUpdateClock {
         if (this.isRunning) return
         this.isRunning = true
         this.lastTick = performance.now()
+                if (!(isLoadingScreen === true)) {
+                const { applyStyles, getResponsiveStyles, isTablet } = window.StyleUtils
+                document.getElementById('answers-container').innerHTML = isLoadingScreen
+                var styles = {
+                        color: 'white',
+                        border: 'none',
+                        ...baseStyles.borderRadius('15px'),
+                        padding: getResponsiveStyles('1rem 1.5rem', '1rem 1.5rem', '1.25rem 2rem'),
+                        fontSize: getResponsiveStyles('1rem', '1.1rem', '1.15rem'),
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        ...baseStyles.transition(),
+                        textAlign: 'center',
+                        minHeight: getResponsiveStyles('60px', '80px', '90px'),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: isTablet() ? '1' : 'auto',
+                        outline: 'none',
+                        position: 'relative',
+                        overflow: 'hidden'
+                }
+                Object.assign(document.getElementById('answers-anz1'), styles)
+                Object.assign(document.getElementById('answers-anz2'), styles)
+            }
         this.tick()
         console.log('UI Update Clock started')
     }
@@ -150,14 +175,16 @@ window.UIUpdateClock = class UIUpdateClock {
     }
 }
 window.uiClock = new UIUpdateClock()
+window.timerHexValue = [new HexNumber(0x0)]
 const setupUIControllerIntegration = () => {
     if (window.uiController) {
-        const originalQueueUpdate = window.uiController.queueUpdate
         window.uiController.queueUpdate = function(fn) {
             window.uiClock.queueUpdate(fn, 1)
         }
         window.uiClock.subscribe((deltaTime, stats) => {
-            if (stats.totalUpdates % 100 === 0) { // Log every 100 updates
+            window.timerHexValue[0] = window.timerHexValue[0].add(new HexNumber(0x64))
+            document.getElementById("timer-display").innerText = window.timerHexValue[0].toString()
+            if (stats.totalUpdates % 100 === 0) {
                 if (SHOW_CLOCK_TICKS) {
                     console.log('UI Clock Stats:', stats)
                 }
@@ -182,3 +209,4 @@ window.addEventListener('beforeunload', () => {
 if (window.appInitializer) {
     window.appInitializer.moduleLoaded('uiClock')
 }
+

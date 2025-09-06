@@ -148,7 +148,7 @@ window.ComponentBuilders = {
         })
         const timerLabel = document.createElement('div')
         timerLabel.className = 'timer-label'
-        timerLabel.textContent = 'Time Played'
+        timerLabel.textContent = 'time passed in HEX milliseconds'
         applyStyles(timerLabel, {
             fontSize: '0.9rem',
             color: window.darkTheme.textSecondary,

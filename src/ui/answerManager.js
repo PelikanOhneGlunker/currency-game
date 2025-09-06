@@ -14,6 +14,9 @@ window.AnswerManager = class AnswerManager {
         this.container = document.getElementById('answers-container')
     }
 
+    /**
+     * @private
+     */
     createAnswerButton(text, index) {
         const button = document.createElement('button')
         button.className = 'answer-button'
@@ -26,7 +29,6 @@ window.AnswerManager = class AnswerManager {
         const { applyStyles, getResponsiveStyles, baseStyles, isTablet } = window.StyleUtils
         
         applyStyles(button, {
-            ...baseStyles.gradient(buttonGradient),
             color: 'white',
             border: 'none',
             ...baseStyles.borderRadius('15px'),
@@ -49,6 +51,9 @@ window.AnswerManager = class AnswerManager {
         return button
     }
 
+    /**
+     * @private
+     */
     addButtonEffects(button) {
         button.addEventListener('mouseenter', () => {
             button.style.transform = 'translateY(-2px)'
@@ -96,11 +101,12 @@ window.AnswerManager = class AnswerManager {
         return button
     }
 
+
+
     showLoading() {
         if (!this.container) this.init()
         
         if (!this.container) {
-            console.warn('AnswerManager: Container not found, skipping showLoading')
             return
         }
         
@@ -132,8 +138,39 @@ window.AnswerManager = class AnswerManager {
         })
     }
 }
-
 window.answerManager = new AnswerManager()
 if (window.ModuleLoader) {
     window.ModuleLoader.register('answerManager', window.answerManager)
+}
+var isLoadingScreen = true
+var attr_robj = null
+async function winGame() {
+    window.useModule('uiController', (uiController) => {
+        let label = uiController.getCoins()
+        label = parseInt(label) + 100
+        uiController.setCoins(100)
+    })
+}
+async function lossGame() {
+    window.useModule('uiController', (uiController) => {
+        let label = uiController.getCoins()
+        label = parseInt(label) + 100
+        uiController.setCoins(100)
+    })
+}
+/**
+ * @event <button>
+ * @param {int} buttonId 
+  */
+async function click_button(buttonId) {
+    robj = attr_robj
+    if (robj[0].mul > robj[1].mub && buttenId == 1) {
+        winGame()
+        return
+    }
+    if (robj[0].mul < robj[1].mub && buttenId == 2) {
+        winGame()
+        return
+    }
+    lossGame()
 }

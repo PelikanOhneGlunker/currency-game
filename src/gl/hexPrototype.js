@@ -20,13 +20,21 @@ HexNumber.prototype.add = function(other) {
     return new HexNumber(this.value + otherValue)
 }
 /**
- * @param {int} minLength 
  * @returns {String} 0x000000 format
  */
 HexNumber.prototype.toString = function() {
     const hexString = this.value.toString(16).toUpperCase()
     const paddedHex = hexString.padStart(6, '0')
     return '0x' + paddedHex
+}
+/**
+ * 
+ * @param {HexNumber} other 
+ * @returns {boolean} {true|false}
+ */
+HexNumber.prototype.equ = function(other) {
+    const otherValue = other instanceof HexNumber ? other.value : new HexNumber(other).value
+    return (this.value.toString() === otherValue.toString())
 }
 HexNumber.prototype.iterate = function(endAddress, callback, step) {
     if (typeof callback !== 'function') {
@@ -48,24 +56,24 @@ HexNumber.prototype.iterate = function(endAddress, callback, step) {
     let currentValue = this.value;
     if (this.value <= endValue) {
         while (currentValue <= endValue) {
-            const currentAddress = new HexNumber(currentValue);
-            const continueIteration = callback(currentAddress);
+            var currentAddress = new HexNumber(currentValue);
+            var continueIteration = callback(currentAddress);
             if (continueIteration === false) {
                 break;
             }
-            if (continueIteration === NaN) {
+            if (continueIteration === true) {
                 continue;
             }
             currentValue += stepValue;
         }
     } else {
         while (currentValue >= endValue) {
-            const currentAddress = new HexNumber(currentValue);
-            const continueIteration = callback(currentAddress);
+            var currentAddress = new HexNumber(currentValue);
+            var continueIteration = callback(currentAddress);
             if (continueIteration === false) {
                 break;
             }
-            if (continueIteration === NaN) {
+            if (continueIteration === true) {
                 continue;
             }
             currentValue -= stepValue;
