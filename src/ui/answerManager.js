@@ -1,8 +1,3 @@
-/**
- * @AutoComment <D163>  "Register module" (0x2dF9)
- * @AutoComment <D160>  "Create global instance" (0x2dF9)
- * @AutoComment <D117>  "Emit event for UI update" (0x2dF9)
- */
 window.AnswerManager = class AnswerManager {
 
     constructor() {

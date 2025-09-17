@@ -1,18 +1,3 @@
-/**
- * @AutoComment <D084> " Helper function for safe multi-module usage" (0x2dF9)
- * @AutoComment <D079> " Helper function for safe module usage" (0x2dF9)
- * @AutoComment <D073> " List all loaded modules" (0x2dF9)
- * @AutoComment <D068> " Check if module is loaded" (0x2dF9)
- * @AutoComment <D063> " Get a module if it exists" (0x2dF9)
- * @AutoComment <D043> " Wait for multiple modules" (0x2dF9)
- * @AutoComment <D035> " Add to pending callbacks" (0x2dF9)
- * @AutoComment <D032> " Module already loaded" (0x2dF9)
- * @AutoComment <D029> " Wait for a module to be available" (0x2dF9)
- * @AutoComment <D023> " Emit custom event" (0x2dF9)
- * @AutoComment <D011> " Execute any pending callbacks waiting for this module" (0x2dF9)
- * @AutoComment <D006> " Register a module" (0x2dF9)
- * @AutoComment <D000> " moduleLoader.js - Module Loading System (MUST BE LOADED FIRST)" (0x2dF9)
-*/
 window.ModuleLoader = {
     modules: {},
     pendingCallbacks: {},

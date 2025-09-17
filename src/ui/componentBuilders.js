@@ -1,7 +1,3 @@
-/**
- * @AutoComment <D196> " Register module" (0x2dF9)
- * @AutoComment <D000> " componentBuilders.js - UI Component Builders" (0x2dF9)
-*/
 window.ComponentBuilders = {
     createStatItem(labelText, valueId, initialValue) {
         const { applyStyles, getResponsiveStyles } = window.StyleUtils

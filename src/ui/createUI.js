@@ -1,23 +1,3 @@
-/**
- * @AutoComment <D137> " Register module" (0x2dF9)
- * @AutoComment <D129> " Emit ready event SAFELY" (0x2dF9)
- * @AutoComment <D119> " Emit resize event SAFELY" (0x2dF9)
- * @AutoComment <D116> " Re-apply responsive styles" (0x2dF9)
- * @AutoComment <D111> " Handle window resize" (0x2dF9)
- * @AutoComment <D103> " Initialize answer manager after DOM is ready" (0x2dF9)
- * @AutoComment <D100> " Finally, append to document body" (0x2dF9)
- * @AutoComment <D096> " Append to game container" (0x2dF9)
- * @AutoComment <D091> " Append elements to game content" (0x2dF9)
- * @AutoComment <D088> " Create timer using component builder" (0x2dF9)
- * @AutoComment <D072> " Create answers container" (0x2dF9)
- * @AutoComment <D052> " Create question container" (0x2dF9)
- * @AutoComment <D048> " Create ticker" (0x2dF9)
- * @AutoComment <D041> " Create game content section" (0x2dF9)
- * @AutoComment <D038> " Create header using component builder" (0x2dF9)
- * @AutoComment <D030> " Add hover effect" (0x2dF9)
- * @AutoComment <D005> " Apply global styles to body" (0x2dF9)
- * @AutoComment <D000> " createUI.js - Main UI Builder" (0x2dF9)
-*/
 window.buildDom = () => {
     const { applyStyles, getResponsiveStyles, isTablet } = window.StyleUtils
     

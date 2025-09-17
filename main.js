@@ -23,9 +23,15 @@ async function main() {
         await waitForFunction(writeToStorage, () => {return (sumCurrencyArrayInDB() > 0)})
     }
     var randAsk = () => {
-        var ri = parseInt(Math.random() * sto.length) - 1
-        var ob = JSON.parse(sto[ri])
-        return ob
+        try {
+            var ri = parseInt(Math.random() * sto.length) - 1
+            var ob = JSON.parse(sto[ri])
+            return ob
+        } catch {
+            setTimeout(() => {
+                location.reload()
+            }, 5000)
+        }
     }
     var quest_function = (winner = 0, selected_winner = 0) => {
         setTimeout(() => {
