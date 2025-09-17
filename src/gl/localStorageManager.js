@@ -95,7 +95,7 @@ var writeToStorage = () => {
             }
         }
     } catch (error) {
-      alert("ERROR " + plocalStorageAdress + ": " + error + " Year " + yearIndex + " currency ind " + currencyIndex)
+      console.log("ERROR " + plocalStorageAdress + ": " + error + " Year " + yearIndex + " currency ind " + currencyIndex)
       if (database[yearIndex].currency_array.length < currencyIndex) {
         currencyIndex++
       } else {
@@ -123,7 +123,7 @@ var readStorage = (ptr = 0x0C0000) => {
       }
       resultList.push(hexStorage[plocalStorageAdress])
     } catch (error) {
-      alert("ERROR " + plocalStorageAdress + ": " + error + " Year " + yearIndex + " currency ind " + currencyIndex)
+      console.log("ERROR " + plocalStorageAdress + ": " + error + " Year " + yearIndex + " currency ind " + currencyIndex)
     }
   })
   return resultList
