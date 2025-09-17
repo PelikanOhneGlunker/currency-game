@@ -1,28 +1,3 @@
-/**
- * @AutoComment <D157> " Wait for core modules then initialize" (0x2dF9)
- * @AutoComment <D152> " Register the app initializer module" (0x2dF9)
- * @AutoComment <D149> " Create global instance" (0x2dF9)
- * @AutoComment <D140> " Reset application" (0x2dF9)
- * @AutoComment <D135> " Handle runtime errors" (0x2dF9)
- * @AutoComment <D112> " Handle initialization errors" (0x2dF9)
- * @AutoComment <D100> " Execute ready callbacks" (0x2dF9)
- * @AutoComment <D091> " Add ready callback" (0x2dF9)
- * @AutoComment <D084> " Handle unhandled promise rejections" (0x2dF9)
- * @AutoComment <D078> " Handle errors" (0x2dF9)
- * @AutoComment <D072> " Store update in history if needed" (0x2dF9)
- * @AutoComment <D068> " Listen for UI updates" (0x2dF9)
- * @AutoComment <D066> " Setup global event listeners" (0x2dF9)
- * @AutoComment <D055> " DOM is already ready" (0x2dF9)
- * @AutoComment <D048> " Ensure DOM is ready" (0x2dF9)
- * @AutoComment <D046> " Wait for required modules" (0x2dF9)
- * @AutoComment <D042> " Build UI" (0x2dF9)
- * @AutoComment <D027> " Emit initialization complete SAFELY" (0x2dF9)
- * @AutoComment <D024> " Execute ready callbacks" (0x2dF9)
- * @AutoComment <D019> " Setup event listeners SAFELY" (0x2dF9)
- * @AutoComment <D016> " Build the DOM" (0x2dF9)
- * @AutoComment <D008> " Initialize the application" (0x2dF9)
- * @AutoComment <D000> " appInitializer.js - Application Initialization" (0x2dF9)
-*/
 window.AppInitializer = class AppInitializer {
     constructor() {
         this.initialized = false
@@ -77,7 +52,8 @@ window.AppInitializer = class AppInitializer {
     setupEventListeners(uiController) {
         uiController.addEventListener('ui-update', (event) => {
             console.log('UI Update:', event.detail)
-            
+            global_refresh_page()
+
             if (window.updateHistory) {
                 window.updateHistory.push(event.detail)
             }

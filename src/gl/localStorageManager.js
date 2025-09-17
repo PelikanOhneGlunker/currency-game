@@ -31,23 +31,22 @@ const hexStorage = new Proxy(localStorage, {
     return true
   }
 })
-var hexStorageTest = () => {
-  defineHex('0xB20000', {
+var writeGameState = (gameStateObject) => {
+  var gameStateObjectAddress = new HexNumber(0x0AA002)
+  var plocalStorageAdress = gameStateObjectAddress.toString()
+  defineHex(plocalStorageAdress, {
     transform: JSON.stringify,
     parse:     JSON.parse,
     validate:  v => typeof v === 'object',
     defaultValue: {}
   })
-  var mess = {value: "Hallo, I'm a Object and existing on " + "0xB20000"}
-  hexStorage['0xB20000'] = mess
-  var mess_restore = hexStorage['0xB20000']
-  if (mess_restore == mess) {
-    console.log("Can read 0xB20000")
-  } else {
-    console.log("ERROR: Storage # 0xB20000")
-    console.log(mess)
-    console.log(mess_restore)
-  }
+  hexStorage[plocalStorageAdress] = gameStateObject
+}
+var readGameState = () => {
+  var gameStateObjectAddress = new HexNumber(0x0AA002)
+  var plocalStorageAdress = gameStateObjectAddress.toString()
+  var res = hexStorage[plocalStorageAdress]
+  return res
 }
 var writeToStorage = () => {
   var startAdress = new HexNumber(0x0C0000)

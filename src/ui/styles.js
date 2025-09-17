@@ -1,12 +1,3 @@
-/**
- * @AutoComment <D090> " Register module" (0x2dF9)
- * @AutoComment <D083> " Initialize styles on load" (0x2dF9)
- * @AutoComment <D064> " Add global animations" (0x2dF9)
- * @AutoComment <D037> " Base styles prototype" (0x2dF9)
- * @AutoComment <D019> " Define color scheme for dark mode" (0x2dF9)
- * @AutoComment <D002> " Style utility functions" (0x2dF9)
- * @AutoComment <D000> " styles.js - Style Utilities and Theme Configuration" (0x2dF9)
-*/
 window.StyleUtils = {
     applyStyles: (element, styles) => {
         Object.assign(element.style, styles)

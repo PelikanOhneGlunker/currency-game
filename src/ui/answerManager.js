@@ -1,8 +1,3 @@
-/**
- * @AutoComment <D163>  "Register module" (0x2dF9)
- * @AutoComment <D160>  "Create global instance" (0x2dF9)
- * @AutoComment <D117>  "Emit event for UI update" (0x2dF9)
- */
 window.AnswerManager = class AnswerManager {
 
     constructor() {
@@ -19,33 +14,25 @@ window.AnswerManager = class AnswerManager {
      */
     createAnswerButton(text, index) {
         const button = document.createElement('button')
-        button.className = 'answer-button'
+        button.className = 'answer-button-' + index
         button.textContent = text
-        
-        const buttonGradient = index % 2 === 0 ? 
-            window.darkTheme.answerButton1 : 
-            window.darkTheme.answerButton2
-        
-        const { applyStyles, getResponsiveStyles, baseStyles, isTablet } = window.StyleUtils
-        
+        const { applyStyles, isTablet } = window.StyleUtils
         applyStyles(button, {
-            color: 'white',
-            border: 'none',
-            ...baseStyles.borderRadius('15px'),
-            padding: getResponsiveStyles('1rem 1.5rem', '1rem 1.5rem', '1.25rem 2rem'),
-            fontSize: getResponsiveStyles('1rem', '1.1rem', '1.15rem'),
+            color: 'black',
+            background: SPIN_COLOR[index],
+            border: 'bold',
             fontWeight: '600',
             cursor: 'pointer',
-            ...baseStyles.transition(),
             textAlign: 'center',
-            minHeight: getResponsiveStyles('60px', '80px', '90px'),
-            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flex: isTablet() ? '1' : 'auto',
             outline: 'none',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            width: '100%',
+            margin: '2%',
+            ...window.baseStyles.borderRadius('10px')
         })
         this.addButtonEffects(button)
         return button
@@ -96,7 +83,7 @@ window.AnswerManager = class AnswerManager {
         this.container.appendChild(button)
         this.buttons.push(button)
         
-        window.uiController.emitUpdate('answerAdded', { text, index })
+        // window.uiController.emitUpdate('answerAdded', { text, index })
         
         return button
     }
@@ -143,34 +130,3 @@ if (window.ModuleLoader) {
     window.ModuleLoader.register('answerManager', window.answerManager)
 }
 var isLoadingScreen = true
-var attr_robj = null
-async function winGame() {
-    window.useModule('uiController', (uiController) => {
-        let label = uiController.getCoins()
-        label = parseInt(label) + 100
-        uiController.setCoins(100)
-    })
-}
-async function lossGame() {
-    window.useModule('uiController', (uiController) => {
-        let label = uiController.getCoins()
-        label = parseInt(label) + 100
-        uiController.setCoins(100)
-    })
-}
-/**
- * @event <button>
- * @param {int} buttonId 
-  */
-async function click_button(buttonId) {
-    robj = attr_robj
-    if (robj[0].mul > robj[1].mub && buttenId == 1) {
-        winGame()
-        return
-    }
-    if (robj[0].mul < robj[1].mub && buttenId == 2) {
-        winGame()
-        return
-    }
-    lossGame()
-}

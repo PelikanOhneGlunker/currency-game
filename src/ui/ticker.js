@@ -1,8 +1,3 @@
-/**
- * @AutoComment <D147> " Register module" (0x2dF9)
- * @AutoComment <D128> " Add CSS for hover effects" (0x2dF9)
- * @AutoComment <D000> " ticker.js - Exchange Rate Ticker Component" (0x2dF9)
-*/
 window.createExchangeTicker = () => {
     const currencies = [
         { pair: 'EUR/USD', rate: 1.0856, change: 0.0012, changePercent: 0.11 },

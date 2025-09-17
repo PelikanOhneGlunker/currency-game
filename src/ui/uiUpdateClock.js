@@ -1,33 +1,3 @@
-/**
- * @AutoComment <D209> " Self-register module (optional, not required for initialization)" (0x2dF9)
- * @AutoComment <D204> " Stop clock on page unload" (0x2dF9)
- * @AutoComment <D195> " Auto-start clock when DOM is ready" (0x2dF9)
- * @AutoComment <D192> " Setup integration" (0x2dF9)
- * @AutoComment <D187> " Try again later if uiController doesn't exist yet" (0x2dF9)
- * @AutoComment <D178> " Subscribe to clock for debugging" (0x2dF9)
- * @AutoComment <D172> " Override queueUpdate to use the clock" (0x2dF9)
- * @AutoComment <D169> " Integration with UIController" (0x2dF9)
- * @AutoComment <D166> " Create global clock instance" (0x2dF9)
- * @AutoComment <D160> " Set tick interval (in milliseconds)" (0x2dF9)
- * @AutoComment <D155> " Clear the update queue" (0x2dF9)
- * @AutoComment <D150> " Get current stats" (0x2dF9)
- * @AutoComment <D145> " Calculate rolling average" (0x2dF9)
- * @AutoComment <D139> " Update statistics" (0x2dF9)
- * @AutoComment <D128> " Notify all subscribers" (0x2dF9)
- * @AutoComment <D122> " Subscribe to clock ticks" (0x2dF9)
- * @AutoComment <D111> " Insert based on priority (higher priority first)" (0x2dF9)
- * @AutoComment <D102> " Queue an update" (0x2dF9)
- * @AutoComment <D082> " Process queued updates" (0x2dF9)
- * @AutoComment <D065> " Schedule next tick" (0x2dF9)
- * @AutoComment <D058> " Update stats" (0x2dF9)
- * @AutoComment <D055> " Notify subscribers" (0x2dF9)
- * @AutoComment <D052> " Process update queue" (0x2dF9)
- * @AutoComment <D048> " Check if we should process updates" (0x2dF9)
- * @AutoComment <D041> " Main tick function" (0x2dF9)
- * @AutoComment <D028> " Stop the clock" (0x2dF9)
- * @AutoComment <D017> " Start the clock" (0x2dF9)
- * @AutoComment <D000> " uiUpdateClock.js - UI Update Clock for Async Operations" (0x2dF9)
-*/
 window.UIUpdateClock = class UIUpdateClock {
     constructor(tickInterval = 16) { // ~60 FPS by default
         this.tickInterval = tickInterval

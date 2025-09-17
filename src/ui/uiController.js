@@ -1,19 +1,3 @@
-/**
- * @AutoComment <D166> " Register module" (0x2dF9)
- * @AutoComment <D163> " Create global instance" (0x2dF9)
- * @AutoComment <D148> " Get all values at once" (0x2dF9)
- * @AutoComment <D138> " Batch update multiple values" (0x2dF9)
- * @AutoComment <D121> " Current/Next Level functions" (0x2dF9)
- * @AutoComment <D107> " Timer functions" (0x2dF9)
- * @AutoComment <D093> " Question Text functions" (0x2dF9)
- * @AutoComment <D077> " Level Progress Bar functions" (0x2dF9)
- * @AutoComment <D063> " XP functions" (0x2dF9)
- * @AutoComment <D049> " Level functions" (0x2dF9)
- * @AutoComment <D035> " Coins functions" (0x2dF9)
- * @AutoComment <D016> " Queue-based update system for async operations" (0x2dF9)
- * @AutoComment <D009> " Emit update event for async processing" (0x2dF9)
- * @AutoComment <D000> " uiController.js - UI Controller with Event System" (0x2dF9)
-*/
 window.UIController = class UIController extends EventTarget {
     constructor() {
         super()
@@ -67,6 +51,9 @@ window.UIController = class UIController extends EventTarget {
             if (element) element.innerHTML = value
             this.emitUpdate('xp', value)
         })
+    }
+    setXp(value) {
+        this.setXP(value)
     }
     getXP() {
         const element = document.getElementById('xp-display')
