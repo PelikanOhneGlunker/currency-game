@@ -77,7 +77,8 @@ window.AppInitializer = class AppInitializer {
     setupEventListeners(uiController) {
         uiController.addEventListener('ui-update', (event) => {
             console.log('UI Update:', event.detail)
-            
+            global_refresh_page()
+
             if (window.updateHistory) {
                 window.updateHistory.push(event.detail)
             }
