@@ -18,12 +18,9 @@ var waitForFunction = async function(callback, getFlag) {
  */
 async function main() {
     var sto = readStorage(0x0C0000)
-    if (READ_FROM_LOCAL_STORAGE) {
-            if (!(sto.length > 0)) {
-            fetchAllAsync()
-            hexStorageTest()
-            waitForFunction(writeToStorage, () => {return (sumCurrencyArrayInDB() > 0)})
-        }
+    if (!(sto.length > 0)) {
+        fetchAllAsync()
+        await waitForFunction(writeToStorage, () => {return (sumCurrencyArrayInDB() > 0)})
     }
     var randAsk = () => {
         var ri = parseInt(Math.random() * sto.length) - 1
@@ -32,12 +29,22 @@ async function main() {
     }
     var quest_function = (winner = 0, selected_winner = 0) => {
         setTimeout(() => {
+            var game_state = null
             if (winner == 0) {
                 window.UIController = new UIController()
                 window.AnswerManager = new AnswerManager()
+                if (readGameState() == undefined) {
+                    game_state = window.UIController.getAllValues()
+                } else {
+                    game_state = JSON.parse(readGameState())
+                    window.UIController.setMultiple(game_state)
+                    console.log("read game_state")
+                    console.log(game_state)
+                }
+            } else {
+                game_state = window.UIController.getAllValues()
             }
             if (winner > 0 && (winner == selected_winner || winner == 3)) {
-                var game_state = window.UIController.getAllValues()
                 game_state.coins = parseInt(game_state.coins)
                 game_state.xp = parseInt(game_state.xp)
                 game_state.level = parseInt(game_state.level)
@@ -58,6 +65,7 @@ async function main() {
                     window.UIController.setNextLevel(game_state.level + 2)
                 }
                 console.log(window.UIController.getAllValues())
+                writeGameState(window.UIController.getAllValues())
             }
             var robj = [randAsk(), randAsk()]
             var quest = "" + robj[0].name + " oder " + robj[1].name

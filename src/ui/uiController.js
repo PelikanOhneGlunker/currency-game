@@ -68,6 +68,9 @@ window.UIController = class UIController extends EventTarget {
             this.emitUpdate('xp', value)
         })
     }
+    setXp(value) {
+        this.setXP(value)
+    }
     getXP() {
         const element = document.getElementById('xp-display')
         return element ? element.innerHTML : null
